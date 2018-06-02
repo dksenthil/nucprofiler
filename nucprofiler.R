@@ -5,8 +5,6 @@ library(tools)
 library(data.table)
 
 
-setwd("/Users/dksenthil/Projects/Nucprofiler/example")
-
 
 ## Get the input file as commandline argument and read the file
 args <- commandArgs(trailingOnly = TRUE)
