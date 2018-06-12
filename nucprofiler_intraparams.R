@@ -11,7 +11,7 @@ if (length(args) < 1)
   stop ("Usage: Rscipt  nucprofiler_intraparams.R <Fastafile> ")
 inputfile <- args[1]
 
-#inputfile <- c("temp.fasta")
+#inputfile <- c("example/temp.fasta")
 
 fastafile <- read.fasta(
   file = inputfile,
@@ -24,7 +24,7 @@ fastafile <- read.fasta(
 
 ## Read the DNAshape query table
 rohdata <-
-  fread("Nucprofiler/data/DNA_shape_query_table.csv")
+  fread("data/DNA_shape_query_table.csv")
 framedata <- data.frame(rohdata)
 rownames(framedata) <- framedata[, 1]
 proptable <- framedata[1:512, ]

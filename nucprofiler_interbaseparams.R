@@ -6,13 +6,13 @@ library(stringi)
 library(tools)
 library(data.table)
 
-## Get the input file as commandline argument and read the file
-# args <- commandArgs(trailingOnly = TRUE)
-# if (length(args) < 1)
-#   stop ("Usage: Rscipt  nucprofiler.R <Fastafile> ")
-# inputfile <- args[1]
+# Get the input file as commandline argument and read the file
+ args <- commandArgs(trailingOnly = TRUE)
+ if (length(args) < 1)
+   stop ("Usage: Rscipt  nucprofiler.R <Fastafile> ")
+ inputfile <- args[1]
 
-inputfile <- c("/example/temp.fasta")
+#inputfile <- c("example/temp.fasta")
 fastafile <- read.fasta(
   file = inputfile,
   as.string = TRUE,
