@@ -1,53 +1,77 @@
-# nucprofiler
+## NUCPROFILER:
 
-# MDplot: Visualise Molecular Dynamics Analyses
-NUCPROFILER has two set of script. 
+DNA shape profile for genomic fragments.
 
-nucprofiler_intraparams.R calcuates intra base pair parameters like 
-"ProT","Stretch","Buckle","Shear","Opening","Stagger" as well as Electrosatic potnetial (EP) and minor groove width (MGW).
+NUCPROFILER has two scripts. 
+
+- **nucprofiler_intraparams.R** calcuates intra base pair parameters like  "ProT","Stretch","Buckle","Shear","Opening","Stagger" as well as Electrosatic potnetial (EP) and minor groove width (MGW).
+
+- **nucprofiler_interbaseparams.R** calcuates intra base pair parameters like "HelT","Roll","Tilt","Shiftr","Slide", and "Rise".
 
 
+
+
+## Prerequisite R packages
+```
+library("seqinr")
+library(stringi)
+library(tools)
+library(data.table)
 
 ```
-user@machine:~nucprofiler$ Rscript nucprofiler_intraparams.R example/temp.fasta 
-
-user@machine$ Rscript nucprofiler_intrabaseparams.R filename.fasta
+## Usage
 
 ```
 
-## Call from within bash script
-An Rscript interface is provided, allowing to set most options:
+user@machine:~nucprofiler$ Rscript nucprofiler_intraparams.R      example/small.fasta 
+user@machine:~nucprofiler$ Rscript nucprofiler_interbaseparams.R  example/small.fasta
+
+```
+## A sample Bash script (batch)
+
+An bash script to run in batch is provied.
+
 ```
 #!/bin/bash
 for file in `cat list_of_fasta`
 do
   
-  Rscript nucprofiler_intrabaseparams.R $file
+  Rscript nucprofiler_interbaseparams.R $file
   Rscript nucprofiler_intraparams.R     $file
+  
 done
 
 ```
 
-## Additional information and examples
-The query table is in data folder
+## Query table information 
 
-The example folder has there types of files representative of samll. medium and big fasta files.
+The query table is inside *data* folder.
 
 
-## New in the latest major version
+## References
+
+*  J. Li et al. Expanding the repertoire of DNA shape features for  genome-scale studies of transcription factor binding. Nucleic Acids Res. 45, 12877-12887 (2017)
+
+* T.P. Chiu et al. Genome-wide prediction of minor-groove electrostatic potential enables biophysical modeling of protein-DNA binding.Nucleic Acids Res. 45, 12565-12576 (2017)
+
+## Example
+
+The *example* folder has there types of files representative of small, medium and big fasta files.
+
+## Sample R Markdown documents
+
+For nucprofiler_intraparams.R the R makrdown is provided.
+
+## New in the latest version
+
 Version: 1.0.1
-Date: 2017-07-04
+Date: 2018-06-01
 
-* fixed some typos in the manual pages
-* added vignette (publication)
-* added special input support for function "load_timeseries()" to be able
-  to load multi-column timeseries data
+* fixed some typos and paths
+* added query table publication
+* added example fasta files
 
-Version: 1.0.0
-Date: 2017-02-24
+## Outlook
 
-* fixed issue with proper residue display when sub-selection was done in function 'dssp()'
-* fixed issue with bin-expansion in function 'load_noe()'
-* removed unnecessary input parameters from several functions
-* added 'stride' to function 'load_dssp_ts()'
-* changed parameters of function 'load_rmsf()'
+1. Add Matrix plotting option.
+2. Add dinucleotide based porperty.

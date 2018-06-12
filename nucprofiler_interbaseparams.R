@@ -1,5 +1,4 @@
 ## Nucprofiler to calculate inter base pair parameters for Genomic fragments
-rm(list = ls())
 
 library("seqinr")
 library(stringi)

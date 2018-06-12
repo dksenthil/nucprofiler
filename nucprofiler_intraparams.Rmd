@@ -81,7 +81,6 @@ dnashape_shapemat2 <- function(pentamer_vec) {
 ## Create empty arrays
 
 ```{r,eval=FALSE}
-#"MGW","ProT","Stretch","Buckle","Shear","Opening","Stagger","EP"
 MGW_mat <- array(numeric(), c(length(pentamer_vec) + 1, 1, 0))
   
   ProT_mat <- array(numeric(), c(length(pentamer_vec) + 1, 1, 0))

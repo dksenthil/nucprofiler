@@ -313,4 +313,5 @@ for (a in seq_along(fastafile)) {
     quote = FALSE
   )
   
-}# fasta loop close
+}
+
