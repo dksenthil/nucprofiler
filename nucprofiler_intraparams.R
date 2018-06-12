@@ -1,4 +1,4 @@
-## Nucprofiler to calculate intra base pair parameters for Genomic fragments
+# Nucprofiler to calculate intra base pair parameters for Genomic fragments
 
 library("seqinr")
 library(stringi)
