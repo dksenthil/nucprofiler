@@ -5,12 +5,10 @@ library(stringi)
 library(tools)
 library(data.table)
 
-
-
 ## Get the input file as commandline argument and read the file
 args <- commandArgs(trailingOnly = TRUE)
 if (length(args) < 1)
-  stop ("Usage: Rscipt  run_DNAshapeProfiler.R <Fastafile> ")
+  stop ("Usage: Rscipt  nucprofiler_intraparams.R <Fastafile> ")
 inputfile <- args[1]
 
 #inputfile <- c("temp.fasta")
@@ -29,7 +27,7 @@ rohdata <-
   fread("Nucprofiler/data/DNA_shape_query_table.csv")
 framedata <- data.frame(rohdata)
 rownames(framedata) <- framedata[, 1]
-proptable <- framedata[1:512,]
+proptable <- framedata[1:512, ]
 
 
 ## Define function for handling reverse complementary pentamer
@@ -39,12 +37,12 @@ revcomp <- function(nucSeq)
 
 #rownum <- c(4, 6, 9, 14, 16, 19, 2, 3, 8, 11, 12, 13, 18, 21)
 ## DNAshape_retreive function2:
-dnashape_shapemat2 <- function(pentamer_vec) {
+dnashape_shapemat <- function(pentamer_vec) {
   ## Mapping HASh-KEY 2,3,8,11,12,13,18,21
   
   map <- new.env(hash = T, parent = emptyenv())
   pent5 <- rownames(framedata)
-  petnew <- head(pent5,-4)
+  petnew <- head(pent5, -4)
   num  <- 1:512
   for (i in seq_along(petnew))
   {
@@ -78,29 +76,29 @@ dnashape_shapemat2 <- function(pentamer_vec) {
     checkvar <- grepl(pentamer_vec[b], rownames(proptable))
     
     if (any(checkvar)) {
-      MGW_mat[b]     <- proptable[map[[pentamer_vec[b]]], ][2]
-      ProT_mat[b]    <- proptable[map[[pentamer_vec[b]]], ][3]
-      Stretch_mat[b] <- proptable[map[[pentamer_vec[b]]], ][8]
-      Buckle_mat[b]  <- proptable[map[[pentamer_vec[b]]], ][11]
-      Shear_mat[b]   <- proptable[map[[pentamer_vec[b]]], ][12]
-      Opening_mat[b] <- proptable[map[[pentamer_vec[b]]], ][13]
-      Stagger_mat[b] <- proptable[map[[pentamer_vec[b]]], ][18]
-      EP_mat[b]      <- proptable[map[[pentamer_vec[b]]], ][21]
+      MGW_mat[b]     <- proptable[map[[pentamer_vec[b]]],][2]
+      ProT_mat[b]    <- proptable[map[[pentamer_vec[b]]],][3]
+      Stretch_mat[b] <- proptable[map[[pentamer_vec[b]]],][8]
+      Buckle_mat[b]  <- proptable[map[[pentamer_vec[b]]],][11]
+      Shear_mat[b]   <- proptable[map[[pentamer_vec[b]]],][12]
+      Opening_mat[b] <- proptable[map[[pentamer_vec[b]]],][13]
+      Stagger_mat[b] <- proptable[map[[pentamer_vec[b]]],][18]
+      EP_mat[b]      <- proptable[map[[pentamer_vec[b]]],][21]
       
     } else {
-      MGW_mat[b] <- proptable[map[[revcomp(pentamer_vec[b])]], ][2]
-      ProT_mat[b] <- proptable[map[[revcomp(pentamer_vec[b])]], ][3]
+      MGW_mat[b] <- proptable[map[[revcomp(pentamer_vec[b])]],][2]
+      ProT_mat[b] <- proptable[map[[revcomp(pentamer_vec[b])]],][3]
       Stretch_mat[b] <-
-        proptable[map[[revcomp(pentamer_vec[b])]], ][8]
+        proptable[map[[revcomp(pentamer_vec[b])]],][8]
       Buckle_mat[b] <-
-        proptable[map[[revcomp(pentamer_vec[b])]], ][11]
+        proptable[map[[revcomp(pentamer_vec[b])]],][11]
       Shear_mat[b] <-
-        proptable[map[[revcomp(pentamer_vec[b])]], ][12]
+        proptable[map[[revcomp(pentamer_vec[b])]],][12]
       Opening_mat[b] <-
-        proptable[map[[revcomp(pentamer_vec[b])]], ][13]
+        proptable[map[[revcomp(pentamer_vec[b])]],][13]
       Stagger_mat[b] <-
-        proptable[map[[revcomp(pentamer_vec[b])]], ][18]
-      EP_mat[b] <- proptable[map[[revcomp(pentamer_vec[b])]], ][21]
+        proptable[map[[revcomp(pentamer_vec[b])]],][18]
+      EP_mat[b] <- proptable[map[[revcomp(pentamer_vec[b])]],][21]
       
     }
   }
@@ -195,7 +193,7 @@ for (a in seq_along(fastafile)) {
   
   headname <-
     array(c(paste0(getAnnot(fastafile)[a])), dim = c(1, 1))
-  listshape <- dnashape_shapemat2(pentamer_vec)
+  listshape <- dnashape_shapemat(pentamer_vec)
   
   mgwarr <-
     paste0(c(headname[1], "NA", round(as.numeric(listshape$MGW), digits = 2), "NA"), sep = "")

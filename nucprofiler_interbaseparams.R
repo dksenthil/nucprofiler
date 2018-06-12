@@ -26,7 +26,7 @@ rohdata <-
   fread("data/DNA_shape_query_table.csv")
 framedata <- data.frame(rohdata)
 rownames(framedata) <- framedata[, 1]
-proptable <- framedata[1:512, ]
+proptable <- framedata[1:512,]
 
 ## Define function for handling reverse complementary pentamer
 revcomp <- function(nucSeq)
@@ -34,17 +34,26 @@ revcomp <- function(nucSeq)
 #rownum <- c(4, 6, 9, 14, 16, 19, 2, 3, 8, 11, 12, 13, 18, 21)
 ## DNAshape_retreive function2
 dnashape_shapemat2 <- function(pentamer_vec) {
-  rollpart2 <- c(NA); heltpart2 <- c(NA); tiltpart2 <- c(NA); risepart2 <- c(NA);  shiftpart2 <- c(NA); slidepart2 <- c(NA);
+  rollpart2 <-
+    c(NA)
+  heltpart2 <-
+    c(NA)
+  tiltpart2 <-
+    c(NA)
+  risepart2 <- c(NA)
+  shiftpart2 <- c(NA)
+  slidepart2 <- c(NA)
+  
   dim(rollpart2) <- c(1, 1)
   dim(heltpart2) <- c(1, 1)
   dim(tiltpart2) <- c(1, 1)
   dim(risepart2) <- c(1, 1)
   dim(shiftpart2) <- c(1, 1)
   dim(slidepart2) <- c(1, 1)
-## Mapping HASh-KEY
+  ## Mapping HASh-KEY
   map <- new.env(hash = T, parent = emptyenv())
   pent5 <- rownames(framedata)
-  petnew <- head(pent5, -4)
+  petnew <- head(pent5,-4)
   num  <- 1:512
   for (i in seq_along(petnew))
   {
@@ -64,70 +73,70 @@ dnashape_shapemat2 <- function(pentamer_vec) {
   for (b in seq_along(pentamer_vec)) {
     checkvar <- grepl(pentamer_vec[b], rownames(proptable))
     if (any(checkvar)) {
-      rollpart1 <- proptable[map[[pentamer_vec[b]]], ][4]
+      rollpart1 <- proptable[map[[pentamer_vec[b]]],][4]
       temp <- c(rollpart1[1, 1], rollpart2[1, 1])
       Roll_mat[b] <- mean(temp, na.rm = TRUE)
-      rollpart2 <- proptable[map[[pentamer_vec[b]]], ][5]
+      rollpart2 <- proptable[map[[pentamer_vec[b]]],][5]
       
-      heltpart1 <- proptable[map[[pentamer_vec[b]]], ][6]
+      heltpart1 <- proptable[map[[pentamer_vec[b]]],][6]
       temp <- c(heltpart1[1, 1], heltpart2[1, 1])
       HelT_mat[b] <- mean(temp, na.rm = TRUE)
-      heltpart2 <- proptable[map[[pentamer_vec[b]]], ][7]
+      heltpart2 <- proptable[map[[pentamer_vec[b]]],][7]
       
-      tiltpart1 <- proptable[map[[pentamer_vec[b]]], ][9]
+      tiltpart1 <- proptable[map[[pentamer_vec[b]]],][9]
       temp <- c(tiltpart1[1, 1], tiltpart2[1, 1])
       Tilt_mat[b] <- mean(temp, na.rm = TRUE)
-      tiltpart2 <- proptable[map[[pentamer_vec[b]]], ][10]
+      tiltpart2 <- proptable[map[[pentamer_vec[b]]],][10]
       
-      risepart1 <- proptable[map[[pentamer_vec[b]]], ][14]
+      risepart1 <- proptable[map[[pentamer_vec[b]]],][14]
       temp <- c(risepart1[1, 1], risepart2[1, 1])
       Rise_mat[b] <- mean(temp, na.rm = TRUE)
-      risepart2 <- proptable[map[[pentamer_vec[b]]], ][15]
+      risepart2 <- proptable[map[[pentamer_vec[b]]],][15]
       
-      shiftpart1 <- proptable[map[[pentamer_vec[b]]], ][16]
+      shiftpart1 <- proptable[map[[pentamer_vec[b]]],][16]
       temp <- c(shiftpart1[1, 1], shiftpart2[1, 1])
       Shift_mat[b] <- mean(temp, na.rm = TRUE)
-      shiftpart2 <- proptable[map[[pentamer_vec[b]]], ][17]
+      shiftpart2 <- proptable[map[[pentamer_vec[b]]],][17]
       
-      slidepart1 <- proptable[map[[pentamer_vec[b]]], ][19]
+      slidepart1 <- proptable[map[[pentamer_vec[b]]],][19]
       temp <- c(slidepart1[1, 1], slidepart2[1, 1])
       Slide_mat[b] <- mean(temp, na.rm = TRUE)
-      slidepart2 <- proptable[map[[pentamer_vec[b]]], ][20]
+      slidepart2 <- proptable[map[[pentamer_vec[b]]],][20]
       
       
     } else {
-      rollpart1 <- proptable[map[[revcomp(pentamer_vec[b])]], ][5]
+      rollpart1 <- proptable[map[[revcomp(pentamer_vec[b])]],][5]
       temp <- c(rollpart1[1, 1], rollpart2[1, 1])
       Roll_mat[b] <- mean(temp, na.rm = TRUE)
-      rollpart2 <- proptable[map[[revcomp(pentamer_vec[b])]], ][4]
+      rollpart2 <- proptable[map[[revcomp(pentamer_vec[b])]],][4]
       
-      heltpart1 <- proptable[map[[revcomp(pentamer_vec[b])]], ][7]
+      heltpart1 <- proptable[map[[revcomp(pentamer_vec[b])]],][7]
       temp <- c(heltpart1[1, 1], heltpart2[1, 1])
       HelT_mat[b] <- mean(temp, na.rm = TRUE)
-      heltpart2 <- proptable[map[[revcomp(pentamer_vec[b])]], ][6]
+      heltpart2 <- proptable[map[[revcomp(pentamer_vec[b])]],][6]
       
-      tiltpart1 <- proptable[map[[revcomp(pentamer_vec[b])]], ][10]
+      tiltpart1 <- proptable[map[[revcomp(pentamer_vec[b])]],][10]
       temp <- c(tiltpart1[1, 1], tiltpart2[1, 1])
       Tilt_mat[b] <- mean(temp, na.rm = TRUE)
-      tiltpart2 <- proptable[map[[revcomp(pentamer_vec[b])]], ][9]
+      tiltpart2 <- proptable[map[[revcomp(pentamer_vec[b])]],][9]
       
-      risepart1 <- proptable[map[[revcomp(pentamer_vec[b])]], ][15]
+      risepart1 <- proptable[map[[revcomp(pentamer_vec[b])]],][15]
       temp <- c(risepart1[1, 1], risepart2[1, 1])
       Rise_mat[b] <- mean(temp, na.rm = TRUE)
-      risepart2 <- proptable[map[[revcomp(pentamer_vec[b])]], ][14]
+      risepart2 <- proptable[map[[revcomp(pentamer_vec[b])]],][14]
       
-      shiftpart1 <- proptable[map[[revcomp(pentamer_vec[b])]], ][17]
+      shiftpart1 <- proptable[map[[revcomp(pentamer_vec[b])]],][17]
       temp <- c(shiftpart1[1, 1], shiftpart2[1, 1])
       Shift_mat[b] <- mean(temp, na.rm = TRUE)
-      shiftpart2 <- proptable[map[[revcomp(pentamer_vec[b])]], ][16]
+      shiftpart2 <- proptable[map[[revcomp(pentamer_vec[b])]],][16]
       
-      slidepart1 <- proptable[map[[revcomp(pentamer_vec[b])]], ][20]
+      slidepart1 <- proptable[map[[revcomp(pentamer_vec[b])]],][20]
       temp <- c(slidepart1[1, 1], slidepart2[1, 1])
       Slide_mat[b] <- mean(temp, na.rm = TRUE)
-      slidepart2 <- proptable[map[[revcomp(pentamer_vec[b])]], ][19]
+      slidepart2 <- proptable[map[[revcomp(pentamer_vec[b])]],][19]
     }
   }
-
+  
   newList <-
     list(
       "Roll" = c(NA, Roll_mat, rollpart2, NA),
