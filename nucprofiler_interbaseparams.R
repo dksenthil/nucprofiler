@@ -5,13 +5,13 @@ library(stringi)
 library(tools)
 library(data.table)
 
-# Get the input file as commandline argument and read the file
- args <- commandArgs(trailingOnly = TRUE)
- if (length(args) < 1)
-   stop ("Usage: Rscipt  nucprofiler.R <Fastafile> ")
- inputfile <- args[1]
+# # Get the input file as commandline argument and read the file
+#  args <- commandArgs(trailingOnly = TRUE)
+#  if (length(args) < 1)
+#    stop ("Usage: Rscipt  nucprofiler.R <Fastafile> ")
+#  inputfile <- args[1]
 
-#inputfile <- c("example/temp.fasta")
+inputfile <- c("example/temp.fasta")
 fastafile <- read.fasta(
   file = inputfile,
   as.string = TRUE,
@@ -26,6 +26,8 @@ rohdata <-
 framedata <- data.frame(rohdata)
 rownames(framedata) <- framedata[, 1]
 proptable <- framedata[1:512,]
+UnDef <- rep(NA, 512)
+proptable <- cbind(proptable, UnDef)
 
 ## Define function for handling reverse complementary pentamer
 revcomp <- function(nucSeq)
@@ -33,22 +35,20 @@ revcomp <- function(nucSeq)
 #rownum <- c(4, 6, 9, 14, 16, 19, 2, 3, 8, 11, 12, 13, 18, 21)
 ## DNAshape_retreive function2
 dnashape_shapemat2 <- function(pentamer_vec) {
-  rollpart2 <-
-    c(NA)
-  heltpart2 <-
-    c(NA)
-  tiltpart2 <-
-    c(NA)
+
+   rollpart2 <- c(NA)
+  heltpart2 <- c(NA)
+  tiltpart2 <- c(NA)
   risepart2 <- c(NA)
   shiftpart2 <- c(NA)
   slidepart2 <- c(NA)
-  
   dim(rollpart2) <- c(1, 1)
   dim(heltpart2) <- c(1, 1)
   dim(tiltpart2) <- c(1, 1)
   dim(risepart2) <- c(1, 1)
   dim(shiftpart2) <- c(1, 1)
   dim(slidepart2) <- c(1, 1)
+
   ## Mapping HASh-KEY
   map <- new.env(hash = T, parent = emptyenv())
   pent5 <- rownames(framedata)
@@ -71,6 +71,7 @@ dnashape_shapemat2 <- function(pentamer_vec) {
   
   for (b in seq_along(pentamer_vec)) {
     checkvar <- grepl(pentamer_vec[b], rownames(proptable))
+    checkvar2 <- grepl(revcomp(pentamer_vec[b]), rownames(proptable))
     if (any(checkvar)) {
       rollpart1 <- proptable[map[[pentamer_vec[b]]],][4]
       temp <- c(rollpart1[1, 1], rollpart2[1, 1])
@@ -103,7 +104,7 @@ dnashape_shapemat2 <- function(pentamer_vec) {
       slidepart2 <- proptable[map[[pentamer_vec[b]]],][20]
       
       
-    } else {
+    } else if (any(checkvar2)) {
       rollpart1 <- proptable[map[[revcomp(pentamer_vec[b])]],][5]
       temp <- c(rollpart1[1, 1], rollpart2[1, 1])
       Roll_mat[b] <- mean(temp, na.rm = TRUE)
@@ -133,6 +134,39 @@ dnashape_shapemat2 <- function(pentamer_vec) {
       temp <- c(slidepart1[1, 1], slidepart2[1, 1])
       Slide_mat[b] <- mean(temp, na.rm = TRUE)
       slidepart2 <- proptable[map[[revcomp(pentamer_vec[b])]],][19]
+    }else
+    {
+      rollpart1 <- proptable[1,][22]
+      temp <- c(rollpart1[1, 1], rollpart2[1, 1])
+      Roll_mat[b] <- mean(temp, na.rm = TRUE)
+      
+      heltpart1 <- proptable[1,][22]
+      temp <- c(heltpart1[1, 1], heltpart2[1, 1])
+      HelT_mat[b] <- mean(temp, na.rm = TRUE)
+      
+      tiltpart1 <- proptable[1,][22]
+      temp <- c(tiltpart1[1, 1], tiltpart2[1, 1])
+      Tilt_mat[b] <- mean(temp, na.rm = TRUE)
+      
+      risepart1 <- proptable[1,][22]
+      temp <- c(risepart1[1, 1], risepart2[1, 1])
+      Rise_mat[b] <- mean(temp, na.rm = TRUE)
+      
+      shiftpart1 <- proptable[1,][22]
+      temp <- c(shiftpart1[1, 1], shiftpart2[1, 1])
+      Shift_mat[b] <- mean(temp, na.rm = TRUE)
+      
+      slidepart1 <- proptable[1,][22]
+      temp <- c(slidepart1[1, 1], slidepart2[1, 1])
+      Slide_mat[b] <- mean(temp, na.rm = TRUE)
+      
+      rollpart2 <- c(NA)
+      heltpart2 <- c(NA)
+      tiltpart2 <- c(NA)
+      risepart2 <- c(NA)
+      shiftpart2 <- c(NA)
+      slidepart2 <- c(NA)
+
     }
   }
   

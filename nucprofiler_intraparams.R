@@ -46,10 +46,9 @@ dnashape_shapemat <- function(pentamer_vec) {
   num  <- 1:512
   for (i in seq_along(petnew))
   {
-    print
+    #print
     key <- petnew[i]
     map[[key]] <- num[i]
-    # print(ls(map))
   }
   #"MGW","ProT","Stretch","Buckle","Shear","Opening","Stagger","EP"
   MGW_mat <- array(numeric(), c(length(pentamer_vec) + 1, 1, 0))
@@ -74,7 +73,7 @@ dnashape_shapemat <- function(pentamer_vec) {
   
   for (b in seq_along(pentamer_vec)) {
     checkvar <- grepl(pentamer_vec[b], rownames(proptable))
-    
+    checkvar2 <- grepl(revcomp(pentamer_vec[b]), rownames(proptable))
     if (any(checkvar)) {
       MGW_mat[b]     <- proptable[map[[pentamer_vec[b]]],][2]
       ProT_mat[b]    <- proptable[map[[pentamer_vec[b]]],][3]
@@ -85,7 +84,7 @@ dnashape_shapemat <- function(pentamer_vec) {
       Stagger_mat[b] <- proptable[map[[pentamer_vec[b]]],][18]
       EP_mat[b]      <- proptable[map[[pentamer_vec[b]]],][21]
       
-    } else {
+    } else if (any(checkvar2)) {
       MGW_mat[b] <- proptable[map[[revcomp(pentamer_vec[b])]],][2]
       ProT_mat[b] <- proptable[map[[revcomp(pentamer_vec[b])]],][3]
       Stretch_mat[b] <-
@@ -100,6 +99,15 @@ dnashape_shapemat <- function(pentamer_vec) {
         proptable[map[[revcomp(pentamer_vec[b])]],][18]
       EP_mat[b] <- proptable[map[[revcomp(pentamer_vec[b])]],][21]
       
+    } else {
+      MGW_mat[b] <- c(NA)
+      ProT_mat[b] <- c(NA)
+      Stretch_mat[b] <- c(NA)
+      Buckle_mat[b] <- c(NA)
+      Shear_mat[b] <- c(NA)
+      Opening_mat[b] <- c(NA)
+      Stagger_mat[b] <- c(NA)
+      EP_mat[b] <- c(NA)
     }
   }
   
